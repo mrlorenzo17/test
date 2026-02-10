@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will you be my Valentine? 💛</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow: #ffeb3b;
+      --yellow-soft: #fff9c4;
+      --yellow-warm: #ffd54f;
+      --gold: #ffc107;
+      --gold-deep: #e6a800;
+      --cream: #fffde7;
+      --cream-dark: #fff8e1;
+      --amber: #c49000;
+      --white: #fff;
+      --shadow: rgba(230, 168, 0, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fffde7 0%, #fff9c4 40%, #fff59d 70%, #fff8e1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+    }
+
+    /* Floating yellow hearts & flowers background */
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart-float,
+    .flower-float {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.5;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .flower-float {
+      font-size: 1.4rem;
+      animation-duration: 7s;
+    }
+
+    .heart-float:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+    .heart-float:nth-child(2) { left: 85%; top: 15%; animation-delay: 1s; }
+    .heart-float:nth-child(3) { left: 25%; top: 70%; animation-delay: 2s; }
+    .flower-float:nth-child(4) { left: 70%; top: 60%; animation-delay: 0.5s; }
+    .heart-float:nth-child(5) { left: 50%; top: 10%; animation-delay: 3s; }
+    .flower-float:nth-child(6) { left: 15%; top: 50%; animation-delay: 1.5s; }
+    .heart-float:nth-child(7) { left: 80%; top: 35%; animation-delay: 2.5s; }
+    .flower-float:nth-child(8) { left: 40%; top: 85%; animation-delay: 1s; }
+    .heart-float:nth-child(9) { left: 90%; top: 75%; animation-delay: 0.8s; }
+    .flower-float:nth-child(10) { left: 5%; top: 80%; animation-delay: 2s; }
+    .heart-float:nth-child(11) { left: 75%; top: 8%; animation-delay: 0.3s; }
+    .flower-float:nth-child(12) { left: 55%; top: 65%; animation-delay: 1.2s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    .main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--white);
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px var(--shadow), 0 0 0 1px rgba(255, 193, 7, 0.2);
+      text-align: center;
+      animation: cardIn 0.6s ease-out;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .card h1 {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .card .sub-message {
+      font-size: 1rem;
+      color: var(--gold-deep);
+      margin-bottom: 1.5rem;
+      min-height: 1.5em;
+      transition: opacity 0.3s ease;
+    }
+
+    .buttons {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      min-height: 3.5rem;
+    }
+
+    .btn {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.9rem 1.8rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, var(--yellow-warm), var(--gold));
+      color: var(--amber);
+      box-shadow: 0 8px 24px rgba(230, 168, 0, 0.4);
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(230, 168, 0, 0.5);
+    }
+
+    .btn-no {
+      background: var(--cream-dark);
+      color: var(--amber);
+      border: 2px solid var(--gold);
+    }
+
+    .btn-no:hover {
+      transform: scale(1.02);
+    }
+
+    /* No button escape - applied via JS */
+    .btn-no.runaway {
+      transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    /* Celebration overlay */
+    .celebration {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .celebration.active {
+      display: flex;
+    }
+
+    .celebration-message {
+      background: var(--white);
+      border-radius: 2rem;
+      padding: 2.5rem;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 24px 60px var(--shadow);
+      animation: popIn 0.5s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+
+    .celebration-message h2 {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.75rem;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .celebration-message p {
+      color: var(--gold-deep);
+      font-size: 1.1rem;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Confetti / hearts container */
+    #confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      animation: confettiFall 3s ease-out forwards;
+    }
+
+    .confetti-piece.heart {
+      font-size: 1.2rem;
+      width: auto;
+      height: auto;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0.8;
+      }
+    }
+
+    /* Sparkle */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--white);
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" aria-hidden="true">
+    <span class="heart-float">💛</span>
+    <span class="heart-float">💛</span>
+    <span class="heart-float">💛</span>
+    <span class="flower-float">🌻</span>
+    <span class="heart-float">💛</span>
+    <span class="flower-float">🌻</span>
+    <span class="heart-float">💛</span>
+    <span class="flower-float">🌸</span>
+    <span class="heart-float">💛</span>
+    <span class="flower-float">🌻</span>
+    <span class="heart-float">💛</span>
+    <span class="flower-float">🌼</span>
+  </div>
+
+  <main class="main">
+    <div class="card">
+      <h1>Will you be my Valentine? 💛</h1>
+      <p class="sub-message" id="sub-message"></p>
+      <div class="buttons">
+        <button type="button" class="btn btn-yes" id="btn-yes">Yes 💛</button>
+        <button type="button" class="btn btn-no" id="btn-no">No 🙈</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="celebration" id="celebration">
+    <div id="confetti-container"></div>
+    <div class="celebration-message">
+      <h2>Yay!! I knew you'd say yes 💛🌻</h2>
+      <p>Happy Valentine's Day!</p>
+    </div>
+  </div>
+
+  <!-- Optional: uncomment and add an MP3 for background music -->
+  <!-- <audio id="bg-music" loop><source src="sweet-music.mp3" type="audio/mpeg"></audio> -->
+
+  <script>
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const subMessage = document.getElementById('sub-message');
+    const celebration = document.getElementById('celebration');
+    const confettiContainer = document.getElementById('confetti-container');
+
+    const noMessages = [
+      "Are you suuuure? 🥺",
+      "I'll be extra sweet I promise 💛",
+      "One more chance? 😭",
+      "My heart is cracking 💔 (just kidding… maybe 👀)",
+      "Pretty please with sunflowers? 🌻",
+      "I'll get you yellow flowers forever 🌼",
+      "Think of the cuddles!! 🥺💛",
+      "Okay but what if I said you're the cutest? 😳",
+      "Last chance... my heart is in your hands 💛",
+      "Fine, I'll ask again tomorrow 😤💛",
+    ];
+
+    let noClickCount = 0;
+    const hearts = ['💛', '💛', '🌻', '🌼', '🌸', '💛'];
+
+    function getRandom(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function runConfetti() {
+      const colors = ['#ffeb3b', '#ffc107', '#ffd54f', '#fff9c4', '#fff'];
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        const isHeart = Math.random() > 0.5;
+        if (isHeart) {
+          piece.classList.add('heart');
+          piece.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        } else {
+          piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        }
+        piece.style.left = getRandom(0, 100) + '%';
+        piece.style.animationDelay = getRandom(0, 0.5) + 's';
+        piece.style.animationDuration = (2 + getRandom(0, 2)) + 's';
+        confettiContainer.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }
+    }
+
+    btnYes.addEventListener('click', () => {
+      celebration.classList.add('active');
+      runConfetti();
+      // Optional: document.getElementById('bg-music')?.play();
+    });
+
+    btnNo.addEventListener('click', () => {
+      const msg = noMessages[Math.min(noClickCount, noMessages.length - 1)];
+      subMessage.textContent = msg;
+      subMessage.style.opacity = '0';
+      requestAnimationFrame(() => {
+        subMessage.style.opacity = '1';
+      });
+      noClickCount++;
+
+      // Make No button escape within the card
+      const card = btnNo.closest('.card');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+      const maxX = cardRect.width - btnNo.offsetWidth - 24;
+      const maxY = cardRect.height - btnNo.offsetHeight - 24;
+      const x = getRandom(12, Math.max(12, maxX));
+      const y = getRandom(12, Math.max(12, maxY));
+      btnNo.style.position = 'absolute';
+      btnNo.style.left = x + 'px';
+      btnNo.style.top = y + 'px';
+      btnNo.style.transform = `scale(${Math.max(0.65, 1 - noClickCount * 0.035)})`;
+
+      // Make Yes button bigger and more tempting over time
+      const scale = 1 + Math.min(noClickCount * 0.07, 0.55);
+      btnYes.style.transform = `scale(${scale})`;
+    });
+
+    // No button runs away on hover too after first click
+    btnNo.addEventListener('mouseenter', () => {
+      if (noClickCount === 0) return;
+      const card = btnNo.closest('.card');
+      const cardRect = card.getBoundingClientRect();
+      const maxX = cardRect.width - btnNo.offsetWidth - 24;
+      const maxY = cardRect.height - btnNo.offsetHeight - 24;
+      const x = getRandom(12, Math.max(12, maxX));
+      const y = getRandom(12, Math.max(12, maxY));
+      btnNo.style.left = x + 'px';
+      btnNo.style.top = y + 'px';
+    });
+  </script>
+</body>
+</html>
